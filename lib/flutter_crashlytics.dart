@@ -59,6 +59,13 @@ class FlutterCrashlytics {
     }
   }
 
+  void logEvent({@required String name, Map<String, dynamic> parameters}) {
+    _channel.invokeMethod('logEvent', <String, dynamic>{
+      'name': name,
+      'parameters': parameters,
+    });
+  }
+
   Future<void> setInfo(String key, dynamic info) async {
     return await _channel.invokeMethod('setInfo', {"key": key, "value": info});
   }
