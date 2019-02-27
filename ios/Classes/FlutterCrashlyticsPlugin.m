@@ -73,6 +73,11 @@
         }
 
         result(nil);
+    } else if ([@"logEvent" isEqualToString:call.method]) {
+        NSDictionary *info = call.arguments;
+        [Answers logCustomEventWithName:info[@"name"] customAttributes:info[@"parameters"]];
+        
+        result(nil);
     } else if ([@"setInfo" isEqualToString:call.method]) {
         NSDictionary *info = call.arguments;
 

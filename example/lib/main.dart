@@ -60,6 +60,14 @@ class _MyAppState extends State<MyApp> {
             Center(
               child: RaisedButton(
                 onPressed: () {
+                  FlutterCrashlytics().logEvent(name: "hello", parameters: {"A" : "B", "C" : 1});
+                },
+                child: Text('logEvent'),
+              ),
+            ),
+            Center(
+              child: RaisedButton(
+                onPressed: () {
                   final crash = List()[69];
                   debugPrint(crash);
                 },
