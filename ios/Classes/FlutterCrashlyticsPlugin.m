@@ -47,9 +47,8 @@
 }
 
 - (void)onInitialisedMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
-    Crashlytics *crashlytics = [Crashlytics sharedInstance];
-
     if ([@"reportCrash" isEqualToString:call.method]) {
+        Crashlytics *crashlytics = [Crashlytics sharedInstance];
         NSDictionary *exception = call.arguments;
 
         NSString *cause = [self getValueForKey:@"cause" from:exception orDefaultTo:@"Flutter Error"];
@@ -79,12 +78,14 @@
         
         result(nil);
     } else if ([@"setInfo" isEqualToString:call.method]) {
+        Crashlytics *crashlytics = [Crashlytics sharedInstance];
         NSDictionary *info = call.arguments;
 
         [crashlytics setObjectValue:info[@"value"] forKey:info[@"key"]];
 
         result(nil);
     } else if ([@"setUserInfo" isEqualToString:call.method]) {
+        Crashlytics *crashlytics = [Crashlytics sharedInstance];
         NSDictionary *info = call.arguments;
 
         [crashlytics setUserName:info[@"name"]];
