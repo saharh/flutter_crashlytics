@@ -8,11 +8,15 @@ import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.CustomEvent
 import com.crashlytics.android.core.CrashlyticsCore
 import io.fabric.sdk.android.Fabric
+import io.flutter.plugin.common.MethodCall
+import io.flutter.plugin.common.MethodChannel
+import io.flutter.plugin.common.PluginRegistry
+import io.flutter.plugin.common.MethodChannel.Result
 
-class FlutterCrashlyticsPlugin(private val context: Context) : MethodCallHandler {
+class FlutterCrashlyticsPlugin(private val context: Context) : MethodChannel.MethodCallHandler {
     companion object {
         @JvmStatic
-        fun registerWith(registrar: Registrar) {
+        fun registerWith(registrar: PluginRegistry.Registrar) {
             val channel = MethodChannel(registrar.messenger(), "flutter_crashlytics")
             channel.setMethodCallHandler(FlutterCrashlyticsPlugin(registrar.context()))
         }
