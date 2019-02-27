@@ -10,8 +10,8 @@ import com.crashlytics.android.core.CrashlyticsCore
 import io.fabric.sdk.android.Fabric
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import io.flutter.plugin.common.PluginRegistry
 import io.flutter.plugin.common.MethodChannel.Result
+import io.flutter.plugin.common.PluginRegistry
 
 class FlutterCrashlyticsPlugin(private val context: Context) : MethodChannel.MethodCallHandler {
     companion object {
@@ -50,13 +50,15 @@ class FlutterCrashlyticsPlugin(private val context: Context) : MethodChannel.Met
                 val answers = Crashlytics.getInstance().answers
                 val info = call.arguments as Map<String, Any>
                 val eventName = info["name"] as String
-                val eventParams = info["parameters"] as Map<String, Any?>
+                val eventParams = info["parameters"] as Map<String, Any?>?
                 val event = CustomEvent(eventName)
-                for (param in eventParams) {
-                    if (param.value is Number) {
-                        event.putCustomAttribute(param.key, param.value as Number)
-                    } else if (param.value is String) {
-                        event.putCustomAttribute(param.key, param.value as String)
+                if (eventParams != null) {
+                    for (param in eventParams) {
+                        if (param.value is Number) {
+                            event.putCustomAttribute(param.key, param.value as Number)
+                        } else if (param.value is String) {
+                            event.putCustomAttribute(param.key, param.value as String)
+                        }
                     }
                 }
                 answers.logCustom(event)
