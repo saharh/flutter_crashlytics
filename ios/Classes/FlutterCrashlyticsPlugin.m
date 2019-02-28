@@ -83,8 +83,12 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         result(nil);
     } else if ([@"logEvent" isEqualToString:call.method]) {
         NSDictionary *info = call.arguments;
-        [Answers logCustomEventWithName:info[@"name"] customAttributes:info[@"parameters"]];
-        
+        NSString *eventName = info[@"name"];
+        NSDictionary *params = info[@"parameters"];
+        if ([params isEqual:[NSNull null]]) {
+            params = nil;
+        }
+        [Answers logCustomEventWithName:eventName customAttributes:params];
         result(nil);
     } else if ([@"setInfo" isEqualToString:call.method]) {
         Crashlytics *crashlytics = [Crashlytics sharedInstance];
