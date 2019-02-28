@@ -30,14 +30,22 @@
 + (void)registerWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar {
     FlutterMethodChannel *channel = [FlutterMethodChannel methodChannelWithName:@"flutter_crashlytics" binaryMessenger:[registrar messenger]];
     FlutterCrashlyticsPlugin *instance = [[FlutterCrashlyticsPlugin alloc] init];
+    [registrar addApplicationDelegate:instance];
     [registrar addMethodCallDelegate:instance channel:channel];
 }
 
+- (BOOL)application:(UIApplication *)application
+didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [Fabric with:@[[Crashlytics self]]];
+    [Fabric sharedSDK].debug = true;
+    _isFabricInitialized = true;
+    return YES;
+}
+
+
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
     if ([@"initialize" isEqualToString:call.method]) {
-        [Fabric with:@[[Crashlytics self]]];
-        [Fabric sharedSDK].debug = true;
-        _isFabricInitialized = true;
+        // noop, inited already in didFinishLaunchingWithOptions
         result(nil);
     } else if (_isFabricInitialized) {
         [self onInitialisedMethodCall:call result:result];
