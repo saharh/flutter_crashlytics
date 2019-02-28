@@ -36,6 +36,7 @@
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
     if ([@"initialize" isEqualToString:call.method]) {
         [Fabric with:@[[Crashlytics self]]];
+        [Fabric sharedSDK].debug = true
         _isFabricInitialized = true;
         result(nil);
     } else if (_isFabricInitialized) {

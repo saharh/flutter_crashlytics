@@ -19,6 +19,6 @@ Flutter plugin to enable Crashlytics reporting.
   s.dependency 'Fabric'
   s.dependency 'Crashlytics'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
 end
 
