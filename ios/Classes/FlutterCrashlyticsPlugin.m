@@ -1,4 +1,3 @@
-#import <Foundation/Foundation.h>
 #import "Fabric.h"
 #import "Crashlytics.h"
 #import "FlutterCrashlyticsPlugin.h"
@@ -138,7 +137,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         [frame setFileName:libraryName];
 
         if (trace[@"line"] != nil && ![trace[@"line"] isEqual:[NSNull null]]) {
-            [frame setLineNumber:(uint32_t) trace[@"line"]];
+            [frame setLineNumber:[(NSNumber *) trace[@"line"] unsignedIntValue]];
         }
 
         [stacks insertObject:frame atIndex:i];
@@ -156,7 +155,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         [stack appendString: @"\n"];
     }
     CLSLog(@"%@", stack);
-    
+
     FlutterException *ex = [[FlutterException alloc] initWithName:cause reason:reason frameArray:frameArray];
 
     [ex raise];
